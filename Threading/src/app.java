@@ -1,5 +1,7 @@
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -25,9 +27,17 @@ public class app {
                 Random random = new Random();
                 
                 for (int i = 0; i < 1e8; i++) {
-                    if(Thread.currentThread().isInterrupted()) { //verifica se il thread attuale è stato interrotto
+                    try {
+                        /*
+                        if(Thread.currentThread().isInterrupted()) { //verifica se il thread attuale è stato interrotto
                         System.out.println("Interrupted!");
                         break;
+                        }
+                        */
+                        
+                        Thread.sleep(1);
+                    } catch (InterruptedException ex) {
+                        System.out.println("Interrupted");
                     }
                     Math.sin(random.nextDouble());
                 }
