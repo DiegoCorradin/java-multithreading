@@ -57,7 +57,8 @@ public class app {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         } catch (ExecutionException ex) {
-            System.out.println(ex);
+            IOException e = (IOException) ex.getCause();
+            System.out.println(e.getMessage());
         }
         
         
