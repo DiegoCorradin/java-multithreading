@@ -17,7 +17,7 @@ public class Connection {
     
     private static Connection instance = new Connection();
     
-    private Semaphore sem = new Semaphore(10);
+    private Semaphore sem = new Semaphore(10, true); //con true: il thread a cui è associato sarà il primo a ricevere il permit quando sarà accessibile
     
     private int connections = 0;
     
