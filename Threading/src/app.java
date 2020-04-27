@@ -24,7 +24,7 @@ public class app {
     public static void main(String[] args) {
         ExecutorService executor = Executors.newCachedThreadPool();
 
-        Future<Integer> future = executor.submit(new Callable<Integer>(){
+        Future<?> future = executor.submit(new Callable<Void>(){
             @Override
             public Integer call() throws Exception {
                 Random random = new Random();
@@ -44,13 +44,12 @@ public class app {
                 
                 System.out.println("Finished..");
                 
-                return duration;
+                return null;
             }
             
         });
         
         executor.shutdown();
-        
         
         try {
             System.out.println("The result is: " + future.get());
