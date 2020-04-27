@@ -13,7 +13,19 @@
  */
 public class app {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         
+        System.out.println("Starting.");
+        
+        Thread t1 = new Thread(new Runnable() {
+            public void run() {
+                
+            }    
+        });
+        t1.start();
+        
+        t1.join();
+        
+        System.out.println("Finished.");
     }
 }
