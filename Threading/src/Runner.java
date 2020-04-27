@@ -38,14 +38,14 @@ public class Runner {
     public void secondThread() throws InterruptedException {
         Random random = new Random();
         for (int i = 0; i < 10000; i++) {
-            lock1.lock();
             lock2.lock();
+            lock1.lock();
             
             try {
             Account.transfer(acc2, acc1, random.nextInt(100));
             } finally {
-                lock1.unlock();
                 lock2.unlock();
+                lock1.unlock();
             }
         }
     }
