@@ -20,11 +20,35 @@ public class Runner {
     private Lock lock1 = new ReentrantLock();
     private Lock lock2 = new ReentrantLock();
     
+    private void acquireLocks(Lock firstLock, Lock secondLock) throws InterruptedException {
+        while(true) {
+            //acquire locks
+            boolean gotFirstLock = false;
+            boolean gotSecondLock = false;
+            try {
+                gotFirstLock = firstLock.tryLock();
+                gotSecondLock = secondLock.tryLock();
+            } finally {
+                if(gotFirstLock && gotSecondLock) {
+                    return;
+                }
+                if(gotFirstLock) {
+                    firstLock.unlock();
+                }
+                if(gotSecondLock) {
+                    secondLock.unlock();
+                }
+            }
+            //locks not acquired
+            Thread.sleep(1);
+            
+        }
+    }
+    
     public void firstThread() throws InterruptedException {
         Random random = new Random();
         for (int i = 0; i < 10000; i++) {
-            lock1.lock();
-            lock2.lock();
+            acquireLocks(lock1, lock2);
             
             try {
             Account.transfer(acc1, acc2, random.nextInt(100));
@@ -38,8 +62,7 @@ public class Runner {
     public void secondThread() throws InterruptedException {
         Random random = new Random();
         for (int i = 0; i < 10000; i++) {
-            lock2.lock();
-            lock1.lock();
+            acquireLocks(lock2, lock1);
             
             try {
             Account.transfer(acc2, acc1, random.nextInt(100));
@@ -50,6 +73,7 @@ public class Runner {
         }
     }
     
+    //to avoid dealock always lock your locks in the same order
 
     public void finished() {
         System.out.println("Account 1 balance: " + acc1.getBalance());
