@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import java.util.concurrent.Semaphore;
 /**
  *
  * @author Utente
@@ -11,35 +11,12 @@
 public class app {
     
     public static void main(String[] args) throws Exception {
-        final Runner runner = new Runner();
+        Semaphore sem = new Semaphore(1);
         
-        Thread t1 = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    runner.firstThread();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        sem.release();
+        sem.acquire();
         
-        Thread t2 = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    runner.secondThread();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        
-        t1.start();
-        t2.start();
-        
-        t1.join();
-        t2.join();
-       
-        runner.finished();
+        System.out.println("Available permits: " + sem.availablePermits());
     }
     
 }
