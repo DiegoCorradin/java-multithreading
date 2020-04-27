@@ -25,6 +25,10 @@ public class app {
                 Random random = new Random();
                 
                 for (int i = 0; i < 1e8; i++) {
+                    if(Thread.currentThread().isInterrupted()) { //verifica se il thread attuale è stato interrotto
+                        System.out.println("Interrupted!");
+                        break;
+                    }
                     Math.sin(random.nextDouble());
                 }
             }    
