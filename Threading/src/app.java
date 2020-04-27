@@ -1,4 +1,7 @@
 
+import java.util.Random;
+
+
 
 
 
@@ -19,11 +22,17 @@ public class app {
         
         Thread t1 = new Thread(new Runnable() {
             public void run() {
+                Random random = new Random();
                 
+                for (int i = 0; i < 1e8; i++) {
+                    Math.sin(random.nextDouble());
+                }
             }    
         });
         t1.start();
+        Thread.sleep(500);
         
+        t1.interrupt(); //applica un flag il quale dice che un thread è stato interrotto, non lo stoppa
         t1.join();
         
         System.out.println("Finished.");
