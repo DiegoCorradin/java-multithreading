@@ -1,4 +1,5 @@
 
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +17,8 @@ public class Connection {
     
     private static Connection instance = new Connection();
     
+    private Semaphore sem = new Semaphore(10);
+    
     private int connections = 0;
     
     private Connection() {
@@ -27,6 +30,12 @@ public class Connection {
     }
     
     public void connect() {
+        
+        try {
+            sem.acquire();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         synchronized (this) {
             connections++;
             System.out.println("Current connections: "+ connections);
@@ -41,5 +50,7 @@ public class Connection {
         synchronized (this) {
             connections--;
         }
+        
+        sem.release();
     }
 }
