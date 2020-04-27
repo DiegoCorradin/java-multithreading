@@ -30,12 +30,21 @@ public class Connection {
     }
     
     public void connect() {
-        
         try {
             sem.acquire();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
+        
+        try {
+            doConnect();
+        } finally {
+            sem.release();
+        }
+    }
+    
+    public void doConnect() {
+        
         synchronized (this) {
             connections++;
             System.out.println("Current connections: "+ connections);
@@ -50,7 +59,6 @@ public class Connection {
         synchronized (this) {
             connections--;
         }
-        
-        sem.release();
+
     }
 }
