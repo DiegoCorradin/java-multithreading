@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +29,10 @@ public class app {
             public Integer call() throws Exception {
                 Random random = new Random();
                 int duration = random.nextInt(4000);
+                
+                if(duration > 2000) {
+                    throw new IOException("Sleeping for too long");
+                }
                 
                 System.out.println("Starting..");
                 
